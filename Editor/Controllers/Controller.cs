@@ -6,119 +6,138 @@ using UnityEngine;
 
 namespace LavaLeak.Diplomata.Editor.Controllers
 {
-  [InitializeOnLoad]
-  public class Controller
-  {
-    static Controller()
+    [InitializeOnLoad]
+    public class Controller
     {
-      _instance = null;
-      _instance = new Controller();
-      _instance._options = null;
-      _instance._characters = null;
-      _instance._interactables = null;
-      _instance._globalFlags = null;
-      _instance._inventory = null;
-      _instance._quests = null;
-    }
-
-    private static Controller _instance = null;
-    private Options _options;
-    private List<Character> _characters;
-    private List<Interactable> _interactables;
-    private GlobalFlags _globalFlags;
-    private Inventory _inventory;
-    private Quest[] _quests;
-
-    public static Controller Instance
-    {
-      get
-      {
-        if (_instance == null)
+        static Controller()
         {
-          _instance = new Controller();
+            _instance = null;
+            _instance = new Controller();
+            _instance._options = null;
+            _instance._characters = null;
+            _instance._interactables = null;
+            _instance._globalFlags = null;
+            _instance._inventory = null;
+            _instance._quests = null;
         }
-        return _instance;
-      }
-      set { _instance = value; }
-    }
 
-    public Options Options
-    {
-      get
-      {
-        if (_options == null)
-          _options = OptionsController.GetOptions();
-        return _options;
-      }
-    }
+        private static Controller _instance = null;
+        private Options _options;
+        private List<Character> _characters;
+        private List<Interactable> _interactables;
+        private GlobalFlags _globalFlags;
+        private Inventory _inventory;
+        private Quest[] _quests;
 
-    public List<Character> Characters
-    {
-      get
-      {
-        if (_characters == null)
-          _characters = CharactersController.GetCharacters(Options);
-        return _characters;
-      }
-      set { _characters = value; }
-    }
+        public static Controller Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new Controller();
+                }
 
-    public List<Interactable> Interactables
-    {
-      get
-      {
-        if (_interactables == null)
-          _interactables = InteractablesController.GetInteractables(Options);
-        return _interactables;
-      }
-      set { _interactables = value; }
-    }
+                return _instance;
+            }
+            set => _instance = value;
+        }
 
-    public GlobalFlags GlobalFlags
-    {
-      get
-      {
-        if (_globalFlags == null)
-          _globalFlags = GlobalFlagsController.GetGlobalFlags(Options.jsonPrettyPrint);
-        return _globalFlags;
-      }
-      set { _globalFlags = value; }
-    }
-    
-    public Inventory Inventory
-    {
-      get
-      {
-        if (_inventory == null)
-          _inventory = InventoryController.GetInventory(Options.jsonPrettyPrint);
-        return _inventory;
-      }
-      set { _inventory = value; }
-    }
-    
-    public Quest[] Quests
-    {
-      get
-      {
-        if (_quests == null)
-          _quests = QuestsController.GetQuests(Options.jsonPrettyPrint);
-        return _quests;
-      }
-      set { _quests = value; }
-    }
+        public Options Options
+        {
+            get
+            {
+                if (_options == null)
+                {
+                    _options = OptionsController.GetOptions();
+                }
 
-    [MenuItem("Tools/Diplomata/Preferences/Force Reload (Editor only)", false, 1)]
-    public static void ForceEditorReload()
-    {
-      _instance = null;
-      _instance = new Controller();
-      _instance._options = null;
-      _instance._characters = null;
-      _instance._interactables = null;
-      _instance._globalFlags = null;
-      _instance._inventory = null;
-      _instance._quests = null;
-      Debug.Log("Editor data reloaded.");
+                return _options;
+            }
+        }
+
+        public List<Character> Characters
+        {
+            get
+            {
+                if (_characters == null)
+                {
+                    _characters = CharactersController.GetCharacters(Options);
+                }
+
+                return _characters;
+            }
+            set => _characters = value;
+        }
+
+        public List<Interactable> Interactables
+        {
+            get
+            {
+                if (_interactables == null)
+                {
+                    _interactables = InteractablesController.GetInteractables(Options);
+                }
+
+                return _interactables;
+            }
+            set => _interactables = value;
+        }
+
+        public GlobalFlags GlobalFlags
+        {
+            get
+            {
+                if (_globalFlags == null)
+                {
+                    _globalFlags = GlobalFlagsController.GetGlobalFlags(Options.jsonPrettyPrint);
+                }
+
+                return _globalFlags;
+            }
+            set => _globalFlags = value;
+        }
+
+        public Inventory Inventory
+        {
+            get
+            {
+                if (_inventory == null)
+                {
+                    _inventory = InventoryController.GetInventory(Options.jsonPrettyPrint);
+                }
+
+                return _inventory;
+            }
+            set => _inventory = value;
+        }
+
+        public Quest[] Quests
+        {
+            get
+            {
+                if (_quests == null)
+                {
+                    _quests = QuestsController.GetQuests(Options.jsonPrettyPrint);
+                }
+
+                return _quests;
+            }
+            set => _quests = value;
+        }
+
+        [MenuItem("Tools/Diplomata/Preferences/Force Reload (Editor only)", false, 1)]
+        public static void ForceEditorReload()
+        {
+            _instance = null;
+            _instance = new Controller();
+            _instance._options = null;
+            _instance._characters = null;
+            _instance._interactables = null;
+            _instance._globalFlags = null;
+            _instance._inventory = null;
+            _instance._quests = null;
+            Debug.Log("Editor data reloaded.");
+        }
     }
-  }
 }

@@ -4,23 +4,23 @@ using LavaLeak.Diplomata.Models;
 
 namespace LavaLeak.Diplomata
 {
-  /// <summary>
-  /// Interactable game objects component class.
-  /// </summary>
-  [Serializable]
-  public class DiplomataInteractable : DiplomataTalkable
-  {
     /// <summary>
-    /// Set the main talkable fields.
+    /// Interactable game objects component class.
     /// </summary>
-    private void Start()
+    [Serializable]
+    public class DiplomataInteractable : DiplomataTalkable
     {
-      choices = new List<Message>();
-      controlIndexes = new Dictionary<string, int>();
+        /// <summary>
+        /// Set the main talkable fields.
+        /// </summary>
+        private void Start()
+        {
+            choices = new List<Message>();
+            controlIndexes = new Dictionary<string, int>();
 
-      controlIndexes.Add("context", 0);
-      controlIndexes.Add("column", 0);
-      controlIndexes.Add("message", 0);
+            controlIndexes.Add("context", 0);
+            controlIndexes.Add("column", 0);
+            controlIndexes.Add("message", 0);
+        }
     }
-  }
 }

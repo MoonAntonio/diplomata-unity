@@ -5,138 +5,125 @@ using UnityEngine;
 
 namespace LavaLeak.Diplomata.Models.Submodels
 {
-  /// <summary>
-  /// The state class
-  /// </summary>
-  [Serializable]
-  public class QuestState
-  {
-    [SerializeField] 
-    private string uniqueId;
-
-    //TODO(Celso): Need to add this to use the language system
-    
-    public LanguageDictionary[] ShortDescription;
-    public LanguageDictionary[] LongDescription;
-
     /// <summary>
-    /// The state constructor.
+    /// The state class
     /// </summary>
-    public QuestState()
+    [Serializable]
+    public class QuestState
     {
-      uniqueId = Guid.NewGuid().ToString();
-      ShortDescription = new LanguageDictionary[0];
-      LongDescription = new LanguageDictionary[0];
-    }
+        [SerializeField]
+        private string uniqueId;
 
-    /// <summary>
-    /// Method to get id because to serialize the id need to be a field not a property.
-    /// </summary>
-    /// <returns>The id (a guid string).</returns>
-    public string GetId()
-    {
-      return uniqueId;
-    }
+        //TODO(Celso): Need to add this to use the language system
 
-    /// <summary>
-    /// Get the short description as string the setted language.
-    /// </summary>
-    /// <param name="language">The language desired.</param>
-    /// <returns>The string value of the short description.</returns>
-    public string GetShortDescription(string language = "")
-    {
-      language = string.IsNullOrEmpty(language) ? DiplomataManager.Data.options.currentLanguage : language;
-      var shortDescription = DictionariesHelper.ContainsKey(ShortDescription, language);
-      return shortDescription != null ? shortDescription.value : string.Empty;
-    }
+        public LanguageDictionary[] ShortDescription;
+        public LanguageDictionary[] LongDescription;
 
-    /// <summary>
-    /// Get a list of the short description of the quests states of a array.
-    /// </summary>
-    /// <param name="questsStates">The quests states array.</param>
-    /// <returns>A array of short description as strings.</returns>
-    public static string[] GetShortDescriptions(QuestState[] questsStates, string language = "")
-    {
-      var questsReturn = questsStates == null ? new string[0] : new string[questsStates.Length];
-      if (questsStates != null)
-      {
-        for (var i = 0; i < questsStates.Length; i++)
+        /// <summary>
+        /// The state constructor.
+        /// </summary>
+        public QuestState()
         {
-          questsReturn[i] = questsStates[i].GetShortDescription(language);
+            uniqueId = Guid.NewGuid().ToString();
+            ShortDescription = new LanguageDictionary[0];
+            LongDescription = new LanguageDictionary[0];
         }
-      }
 
-      return questsReturn;
-    }
-    
-    /// <summary>
-    /// Get the long description as string the setted language.
-    /// </summary>
-    /// <param name="language">The language desired.</param>
-    /// <returns>The string value of the long description.</returns>
-    public string GetLongDescription(string language = "")
-    {
-      language = string.IsNullOrEmpty(language) ? DiplomataManager.Data.options.currentLanguage : language;
-      var longDescription = DictionariesHelper.ContainsKey(LongDescription, language);
-      return longDescription != null ? longDescription.value : string.Empty;
-    }
+        /// <summary>
+        /// Method to get id because to serialize the id need to be a field not a property.
+        /// </summary>
+        /// <returns>The id (a guid string).</returns>
+        public string GetId() => uniqueId;
 
-    /// <summary>
-    /// Get a list of the long descriptions of the quests states of a array.
-    /// </summary>
-    /// <param name="questsStates">The quests states array.</param>
-    /// <returns>A array of long description as strings.</returns>
-    public static string[] GetLongDescriptions(QuestState[] questsStates, string language = "")
-    {
-      var questsReturn = questsStates == null ? new string[0] : new string[questsStates.Length];
-      if (questsStates != null)
-      {
-        for (int i = 0; i < questsStates.Length; i++)
+        /// <summary>
+        /// Get the short description as string the setted language.
+        /// </summary>
+        /// <param name="language">The language desired.</param>
+        /// <returns>The string value of the short description.</returns>
+        public string GetShortDescription(string language = "")
         {
-          questsReturn[i] = questsStates[i].GetLongDescription(language);
+            language = string.IsNullOrEmpty(language) ? DiplomataManager.Data.options.currentLanguage : language;
+            var shortDescription = DictionariesHelper.ContainsKey(ShortDescription, language);
+            return shortDescription != null ? shortDescription.value : string.Empty;
         }
-      }
 
-      return questsReturn;
-    }
-
-    public string GetShortDescription(Options options)
-    {
-      return GetShortDescription(options.currentLanguage);
-    }
-
-    public static string[] GetShortDescriptions(QuestState[] questsStates, Options options)
-    {
-      return GetShortDescriptions(questsStates, options.currentLanguage);
-    }
-
-    public string GetLongDescription(Options options)
-    {
-      return GetLongDescription(options.currentLanguage);
-    }
-
-    public static string[] GetLongDescriptions(QuestState[] questsStates, Options options)
-    {
-      return GetLongDescriptions(questsStates, options.currentLanguage);
-    }
-    
-    /// <summary>
-    /// Get a list of the ids of the quests states of a array.
-    /// </summary>
-    /// <param name="questsStates">The quests states array.</param>
-    /// <returns>A array of ids as strings.</returns>
-    public static string[] GetIDs(QuestState[] questsStates)
-    {
-      string[] questsReturn = questsStates == null ? new string[0] : new string[questsStates.Length];
-      if (questsStates != null)
-      {
-        for (var i = 0; i < questsStates.Length; i++)
+        /// <summary>
+        /// Get a list of the short description of the quests states of a array.
+        /// </summary>
+        /// <param name="questsStates">The quests states array.</param>
+        /// <returns>A array of short description as strings.</returns>
+        public static string[] GetShortDescriptions(QuestState[] questsStates, string language = "")
         {
-          questsReturn[i] = questsStates[i].GetId();
-        }
-      }
+            var questsReturn = questsStates == null ? new string[0] : new string[questsStates.Length];
+            if (questsStates != null)
+            {
+                for (var i = 0; i < questsStates.Length; i++)
+                {
+                    questsReturn[i] = questsStates[i].GetShortDescription(language);
+                }
+            }
 
-      return questsReturn;
+            return questsReturn;
+        }
+
+        /// <summary>
+        /// Get the long description as string the setted language.
+        /// </summary>
+        /// <param name="language">The language desired.</param>
+        /// <returns>The string value of the long description.</returns>
+        public string GetLongDescription(string language = "")
+        {
+            language = string.IsNullOrEmpty(language) ? DiplomataManager.Data.options.currentLanguage : language;
+            var longDescription = DictionariesHelper.ContainsKey(LongDescription, language);
+            return longDescription != null ? longDescription.value : string.Empty;
+        }
+
+        /// <summary>
+        /// Get a list of the long descriptions of the quests states of a array.
+        /// </summary>
+        /// <param name="questsStates">The quests states array.</param>
+        /// <returns>A array of long description as strings.</returns>
+        public static string[] GetLongDescriptions(QuestState[] questsStates, string language = "")
+        {
+            var questsReturn = questsStates == null ? new string[0] : new string[questsStates.Length];
+            if (questsStates != null)
+            {
+                for (var i = 0; i < questsStates.Length; i++)
+                {
+                    questsReturn[i] = questsStates[i].GetLongDescription(language);
+                }
+            }
+
+            return questsReturn;
+        }
+
+        public string GetShortDescription(Options options) => GetShortDescription(options.currentLanguage);
+
+        public static string[] GetShortDescriptions(QuestState[] questsStates, Options options) =>
+            GetShortDescriptions(questsStates, options.currentLanguage);
+
+        public string GetLongDescription(Options options) => GetLongDescription(options.currentLanguage);
+
+        public static string[] GetLongDescriptions(QuestState[] questsStates, Options options) =>
+            GetLongDescriptions(questsStates, options.currentLanguage);
+
+        /// <summary>
+        /// Get a list of the ids of the quests states of a array.
+        /// </summary>
+        /// <param name="questsStates">The quests states array.</param>
+        /// <returns>A array of ids as strings.</returns>
+        public static string[] GetIDs(QuestState[] questsStates)
+        {
+            var questsReturn = questsStates == null ? new string[0] : new string[questsStates.Length];
+            if (questsStates != null)
+            {
+                for (var i = 0; i < questsStates.Length; i++)
+                {
+                    questsReturn[i] = questsStates[i].GetId();
+                }
+            }
+
+            return questsReturn;
+        }
     }
-  }
 }

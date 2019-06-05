@@ -7,72 +7,75 @@ using Object = UnityEngine.Object;
 
 namespace LavaLeak.Diplomata.Editor.Controllers
 {
-  public static class CharactersController
-  {
-    public static List<Character> GetCharacters(Options options)
+    public static class CharactersController
     {
-      JSONHelper.CreateFolder("Diplomata/Characters/");
-      GlobalFlagsController.GetGlobalFlags(options.jsonPrettyPrint);
-      return UpdateList(options);
-    }
-
-    public static List<Character> UpdateList(Options options)
-    {
-      var charactersFiles = Resources.LoadAll("Diplomata/Characters/");
-      var characters = new List<Character>();
-      options.characterList = new string[0];
-
-      foreach (Object obj in charactersFiles)
-      {
-        var json = (TextAsset) obj;
-        var character = JsonUtility.FromJson<Character>(json.text);
-
-        characters.Add(character);
-        options.characterList = ArrayHelper.Add(options.characterList, obj.name);
-      }
-
-      return characters;
-    }
-
-    public static void Save(Character character, bool prettyPrint = false)
-    {
-      JSONHelper.Update(character, character.name, prettyPrint, "Diplomata/Characters/");
-    }
-
-    public static void AddCharacter(string name, Options options, List<Character> characters)
-    {
-      var character = new Character(name, options);
-      CheckRepeatedCharacter(character, options, characters);
-    }
-
-    private static void CheckRepeatedCharacter(Character character, Options options, List<Character> characters)
-    {
-      bool canAdd = true;
-
-      foreach (string characterName in options.characterList)
-      {
-        if (characterName == character.name)
+        public static List<Character> GetCharacters(Options options)
         {
-          canAdd = false;
-          break;
+            JSONHelper.CreateFolder("Diplomata/Characters/");
+            GlobalFlagsController.GetGlobalFlags(options.jsonPrettyPrint);
+            return UpdateList(options);
         }
-      }
 
-      if (canAdd)
-      {
-        characters.Add(character);
-        if (characters.Count == 1) options.playerCharacterName = character.name;
+        public static List<Character> UpdateList(Options options)
+        {
+            var charactersFiles = Resources.LoadAll("Diplomata/Characters/");
+            var characters = new List<Character>();
+            options.characterList = new string[0];
 
-        options.characterList = ArrayHelper.Add(options.characterList, character.name);
-        OptionsController.Save(options, options.jsonPrettyPrint);
+            foreach (var obj in charactersFiles)
+            {
+                var json = (TextAsset) obj;
+                var character = JsonUtility.FromJson<Character>(json.text);
 
-        JSONHelper.Create(character, character.name, options.jsonPrettyPrint, "Diplomata/Characters/");
-      }
+                characters.Add(character);
+                options.characterList = ArrayHelper.Add(options.characterList, obj.name);
+            }
 
-      else
-      {
-        Debug.LogError("This name already exists!");
-      }
+            return characters;
+        }
+
+        public static void Save(Character character, bool prettyPrint = false)
+        {
+            JSONHelper.Update(character, character.name, prettyPrint, "Diplomata/Characters/");
+        }
+
+        public static void AddCharacter(string name, Options options, List<Character> characters)
+        {
+            var character = new Character(name, options);
+            CheckRepeatedCharacter(character, options, characters);
+        }
+
+        private static void CheckRepeatedCharacter(Character character, Options options, List<Character> characters)
+        {
+            var canAdd = true;
+
+            foreach (var characterName in options.characterList)
+            {
+                if (characterName == character.name)
+                {
+                    canAdd = false;
+                    break;
+                }
+            }
+
+            if (canAdd)
+            {
+                characters.Add(character);
+                if (characters.Count == 1)
+                {
+                    options.playerCharacterName = character.name;
+                }
+
+                options.characterList = ArrayHelper.Add(options.characterList, character.name);
+                OptionsController.Save(options, options.jsonPrettyPrint);
+
+                JSONHelper.Create(character, character.name, options.jsonPrettyPrint, "Diplomata/Characters/");
+            }
+
+            else
+            {
+                Debug.LogError("This name already exists!");
+            }
+        }
     }
-  }
 }

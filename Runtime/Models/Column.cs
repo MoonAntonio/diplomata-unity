@@ -6,81 +6,81 @@ using UnityEngine;
 
 namespace LavaLeak.Diplomata.Models
 {
-  [Serializable]
-  public class Column : Data
-  {
-    [SerializeField]
-    public string uniqueId = Guid.NewGuid().ToString();
-
-    // TODO: Use only unique id.
-    public int id;
-
-    public string emitter;
-    public Message[] messages;
-
-    public Column() {}
-
-    public Column(int id, Options options)
+    [Serializable]
+    public class Column : Data
     {
-      uniqueId = Guid.NewGuid().ToString();
-      this.id = id;
-      emitter = options.playerCharacterName;
+        [SerializeField]
+        public string uniqueId = Guid.NewGuid().ToString();
 
-      messages = new Message[0];
-    }
+        // TODO: Use only unique id.
+        public int id;
 
-    public static Column[] RemoveEmptyColumns(Column[] columns)
-    {
-      var newArray = new Column[0];
+        public string emitter;
+        public Message[] messages;
 
-      for (var i = 0; i < columns.Length; i++)
-      {
-        if (columns[i].messages.Length > 0)
+        public Column()
         {
-          newArray = ArrayHelper.Add(newArray, columns[i]);
         }
-      }
 
-      for (var i = 0; i < newArray.Length; i++)
-      {
-        if (newArray[i].id == i + 1)
+        public Column(int id, Options options)
         {
-          newArray[i].id = i;
+            uniqueId = Guid.NewGuid().ToString();
+            this.id = id;
+            emitter = options.playerCharacterName;
 
-          foreach (var msg in newArray[i].messages)
-          {
-            msg.columnId = i;
-          }
+            messages = new Message[0];
         }
-      }
 
-      return newArray;
-    }
+        public static Column[] RemoveEmptyColumns(Column[] columns)
+        {
+            var newArray = new Column[0];
 
-    /// <summary>
-    /// Find a column by it id.
-    /// </summary>
-    /// <param name="context">A context.</param>
-    /// <param name="columnId">The id of the column.</param>
-    /// <returns>The column if found, or null.</returns>
-    public static Column Find(Context context, int columnId)
-    {
-      return (Column) Helpers.Find.In(context.columns).Where("id", columnId).Result;
-    }
+            for (var i = 0; i < columns.Length; i++)
+            {
+                if (columns[i].messages.Length > 0)
+                {
+                    newArray = ArrayHelper.Add(newArray, columns[i]);
+                }
+            }
 
-    public override Persistent GetData()
-    {
-      var column = new ColumnPersistent();
-      column.id = uniqueId;
-      column.messages = Data.GetArrayData<MessagePersistent>(messages);
-      return column;
-    }
+            for (var i = 0; i < newArray.Length; i++)
+            {
+                if (newArray[i].id == i + 1)
+                {
+                    newArray[i].id = i;
 
-    public override void SetData(Persistent persistentData)
-    {
-      var column = (ColumnPersistent) persistentData;
-      uniqueId = column.id;
-      messages = Data.SetArrayData<Message>(messages, column.messages);
+                    foreach (var msg in newArray[i].messages)
+                    {
+                        msg.columnId = i;
+                    }
+                }
+            }
+
+            return newArray;
+        }
+
+        /// <summary>
+        /// Find a column by it id.
+        /// </summary>
+        /// <param name="context">A context.</param>
+        /// <param name="columnId">The id of the column.</param>
+        /// <returns>The column if found, or null.</returns>
+        public static Column Find(Context context, int columnId) =>
+            (Column) Helpers.Find.In(context.columns).Where("id", columnId).Result;
+
+        public override Persistent GetData()
+        {
+            var column = new ColumnPersistent();
+            column.id = uniqueId;
+            column.messages = Data.GetArrayData<MessagePersistent>(messages);
+            return column;
+        }
+
+        public override void SetData(Persistent persistentData)
+        {
+            var column = (ColumnPersistent) persistentData;
+            uniqueId = column.id;
+            messages = Data.SetArrayData<Message>(messages, column.messages);
+        }
     }
-  }
 }

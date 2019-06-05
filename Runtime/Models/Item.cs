@@ -10,388 +10,365 @@ using UnityEngine;
 
 namespace LavaLeak.Diplomata.Models
 {
-  /// <summary>
-  /// The item class.
-  /// </summary>
-  [Serializable]
-  public class Item : Data
-  {
-    [SerializeField]
-    private string uniqueId = Guid.NewGuid().ToString();
-
-    // TODO: Use only unique id.
-    public int id;
-
-    public LanguageDictionary[] name;
-    public LanguageDictionary[] description;
-    public string imagePath = string.Empty;
-    public string highlightImagePath = string.Empty;
-    public string pressedImagePath = string.Empty;
-    public string disabledImagePath = string.Empty;
-
-    [SerializeField]
-    private string category = string.Empty;
-
-    [NonSerialized]
-    public Texture2D image;
-
-    [NonSerialized]
-    public Texture2D highlightImage;
-
-    [NonSerialized]
-    public Texture2D pressedImage;
-
-    [NonSerialized]
-    public Texture2D disabledImage;
-
-    private Sprite sprite;
-    private Sprite highlightSprite;
-    private Sprite pressedSprite;
-    private Sprite disabledSprite;
-
-    [NonSerialized]
-    public bool have;
-
-    [NonSerialized]
-    public bool discarded;
-
     /// <summary>
-    /// The item category.
+    /// The item class.
     /// </summary>
-    /// <value>The item category string.</value>
-    public string Category
+    [Serializable]
+    public class Item : Data
     {
-      get
-      {
-        return category;
-      }
-      set
-      {
-        category = value.ToLower();
-      }
-    }
+        [SerializeField]
+        private string uniqueId = Guid.NewGuid().ToString();
 
-    /// <summary>
-    /// Property to get sprite after it's setted.
-    /// </summary>
-    /// <value>Sprite from image.</value>
-    public Sprite Sprite
-    {
-      get
-      {
-        SetImageAndSprite();
-        return sprite;
-      }
-    }
+        // TODO: Use only unique id.
+        public int id;
 
-    /// <summary>
-    /// Property to get sprite to highlighted, after it's setted.
-    /// </summary>
-    /// <value>Sprite from highlited image.</value>
-    public Sprite HighlightedSprite
-    {
-      get
-      {
-        SetHighlightedImageAndSprite();
-        return highlightSprite;
-      }
-    }
+        public LanguageDictionary[] name;
+        public LanguageDictionary[] description;
+        public string imagePath = string.Empty;
+        public string highlightImagePath = string.Empty;
+        public string pressedImagePath = string.Empty;
+        public string disabledImagePath = string.Empty;
 
-    /// <summary>
-    /// Property to get sprite to pressed, after it's setted.
-    /// </summary>
-    /// <value>Sprite from pressed image.</value>
-    public Sprite PressedSprite
-    {
-      get
-      {
-        SetPressedImageAndSprite();
-        return pressedSprite;
-      }
-    }
+        [SerializeField]
+        private string category = string.Empty;
 
-    /// <summary>
-    /// Property to get sprite to disabled, after it's setted.
-    /// </summary>
-    /// <value>Sprite from disabled image.</value>
-    public Sprite DisabledSprite
-    {
-      get
-      {
-        SetDisabledImageAndSprite();
-        return disabledSprite;
-      }
-    }
+        [NonSerialized]
+        public Texture2D image;
 
-    /// <summary>
-    /// Get the item unique id.
-    /// </summary>
-    /// <returns>The unique id(a string guid).</returns>
-    public string GetId()
-    {
-      return uniqueId;
-    }
+        [NonSerialized]
+        public Texture2D highlightImage;
 
-    /// <summary>
-    /// Get the item name.
-    /// </summary>
-    /// <returns>The name in the current language.</returns>
-    public string GetName()
-    {
-      return DictionariesHelper.ContainsKey(name, DiplomataManager.Data.options.currentLanguage).value;
-    }
+        [NonSerialized]
+        public Texture2D pressedImage;
 
-    /// <summary>
-    /// Get the item name.
-    /// </summary>
-    /// <returns>The name in the setted language.</returns>
-    public string GetName(string language)
-    {
-      return DictionariesHelper.ContainsKey(name, language).value;
-    }
+        [NonSerialized]
+        public Texture2D disabledImage;
 
-    /// <summary>
-    /// Get the item description.
-    /// </summary>
-    /// <returns>The description in the current language.</returns>
-    public string GetDescription()
-    {
-      return DictionariesHelper.ContainsKey(description, DiplomataManager.Data.options.currentLanguage).value;
-    }
+        private Sprite sprite;
+        private Sprite highlightSprite;
+        private Sprite pressedSprite;
+        private Sprite disabledSprite;
 
-    /// <summary>
-    /// Get the item description.
-    /// </summary>
-    /// <returns>The description in the setted language.</returns>
-    public string GetDescription(string language)
-    {
-      return DictionariesHelper.ContainsKey(description, language).value;
-    }
+        [NonSerialized]
+        public bool have;
 
-    /// <summary>
-    /// Set image and sprite from the path.
-    /// </summary>
-    public void SetImageAndSprite()
-    {
-      if (image == null || sprite == null)
-      {
-        image = (Texture2D) Resources.Load(imagePath);
+        [NonSerialized]
+        public bool discarded;
 
-        if (image != null)
+        /// <summary>
+        /// The item category.
+        /// </summary>
+        /// <value>The item category string.</value>
+        public string Category
         {
-          sprite = Sprite.Create(
-            image,
-            new Rect(0, 0, image.width, image.height),
-            new Vector2(0.5f, 0.5f)
-          );
+            get => category;
+            set => category = value.ToLower();
         }
-      }
-    }
 
-    /// <summary>
-    /// Set image and sprite from the path for highlight.
-    /// </summary>
-    public void SetHighlightedImageAndSprite()
-    {
-      if (highlightImage == null || highlightSprite == null)
-      {
-        highlightImage = (Texture2D) Resources.Load(highlightImagePath);
-
-        if (highlightImage != null)
+        /// <summary>
+        /// Property to get sprite after it's setted.
+        /// </summary>
+        /// <value>Sprite from image.</value>
+        public Sprite Sprite
         {
-          highlightSprite = Sprite.Create(
-            highlightImage,
-            new Rect(0, 0, highlightImage.width, highlightImage.height),
-            new Vector2(0.5f, 0.5f)
-          );
+            get
+            {
+                SetImageAndSprite();
+                return sprite;
+            }
         }
-      }
-    }
 
-    /// <summary>
-    /// Set image and sprite from the path for pressed.
-    /// </summary>
-    public void SetPressedImageAndSprite()
-    {
-      if (pressedImage == null || pressedSprite == null)
-      {
-        pressedImage = (Texture2D) Resources.Load(pressedImagePath);
-
-        if (pressedImage != null)
+        /// <summary>
+        /// Property to get sprite to highlighted, after it's setted.
+        /// </summary>
+        /// <value>Sprite from highlited image.</value>
+        public Sprite HighlightedSprite
         {
-          pressedSprite = Sprite.Create(
-            pressedImage,
-            new Rect(0, 0, pressedImage.width, pressedImage.height),
-            new Vector2(0.5f, 0.5f)
-          );
+            get
+            {
+                SetHighlightedImageAndSprite();
+                return highlightSprite;
+            }
         }
-      }
-    }
 
-    /// <summary>
-    /// Set image and sprite from the path for disabled.
-    /// </summary>
-    public void SetDisabledImageAndSprite()
-    {
-      if (disabledImage == null || disabledSprite == null)
-      {
-        disabledImage = (Texture2D) Resources.Load(disabledImagePath);
-
-        if (disabledImage != null)
+        /// <summary>
+        /// Property to get sprite to pressed, after it's setted.
+        /// </summary>
+        /// <value>Sprite from pressed image.</value>
+        public Sprite PressedSprite
         {
-          disabledSprite = Sprite.Create(
-            disabledImage,
-            new Rect(0, 0, disabledImage.width, disabledImage.height),
-            new Vector2(0.5f, 0.5f)
-          );
+            get
+            {
+                SetPressedImageAndSprite();
+                return pressedSprite;
+            }
         }
-      }
-    }
 
-    /// <summary>
-    /// Clean constructor.
-    /// </summary>
-    public Item() {}
+        /// <summary>
+        /// Property to get sprite to disabled, after it's setted.
+        /// </summary>
+        /// <value>Sprite from disabled image.</value>
+        public Sprite DisabledSprite
+        {
+            get
+            {
+                SetDisabledImageAndSprite();
+                return disabledSprite;
+            }
+        }
 
-    /// <summary>
-    /// Instantiate a item with a id.
-    /// </summary>
-    /// <param name="id">The item id.</param>
-    public Item(int id, Options options)
-    {
-      SetId();
+        /// <summary>
+        /// Get the item unique id.
+        /// </summary>
+        /// <returns>The unique id(a string guid).</returns>
+        public string GetId() => uniqueId;
+
+        /// <summary>
+        /// Get the item name.
+        /// </summary>
+        /// <returns>The name in the current language.</returns>
+        public string GetName() =>
+            DictionariesHelper.ContainsKey(name, DiplomataManager.Data.options.currentLanguage).value;
+
+        /// <summary>
+        /// Get the item name.
+        /// </summary>
+        /// <returns>The name in the setted language.</returns>
+        public string GetName(string language) => DictionariesHelper.ContainsKey(name, language).value;
+
+        /// <summary>
+        /// Get the item description.
+        /// </summary>
+        /// <returns>The description in the current language.</returns>
+        public string GetDescription() =>
+            DictionariesHelper.ContainsKey(description, DiplomataManager.Data.options.currentLanguage).value;
+
+        /// <summary>
+        /// Get the item description.
+        /// </summary>
+        /// <returns>The description in the setted language.</returns>
+        public string GetDescription(string language) => DictionariesHelper.ContainsKey(description, language).value;
+
+        /// <summary>
+        /// Set image and sprite from the path.
+        /// </summary>
+        public void SetImageAndSprite()
+        {
+            if (image == null || sprite == null)
+            {
+                image = (Texture2D) Resources.Load(imagePath);
+
+                if (image != null)
+                {
+                    sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set image and sprite from the path for highlight.
+        /// </summary>
+        public void SetHighlightedImageAndSprite()
+        {
+            if (highlightImage == null || highlightSprite == null)
+            {
+                highlightImage = (Texture2D) Resources.Load(highlightImagePath);
+
+                if (highlightImage != null)
+                {
+                    highlightSprite = Sprite.Create(highlightImage,
+                        new Rect(0, 0, highlightImage.width, highlightImage.height), new Vector2(0.5f, 0.5f));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set image and sprite from the path for pressed.
+        /// </summary>
+        public void SetPressedImageAndSprite()
+        {
+            if (pressedImage == null || pressedSprite == null)
+            {
+                pressedImage = (Texture2D) Resources.Load(pressedImagePath);
+
+                if (pressedImage != null)
+                {
+                    pressedSprite = Sprite.Create(pressedImage, new Rect(0, 0, pressedImage.width, pressedImage.height),
+                        new Vector2(0.5f, 0.5f));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set image and sprite from the path for disabled.
+        /// </summary>
+        public void SetDisabledImageAndSprite()
+        {
+            if (disabledImage == null || disabledSprite == null)
+            {
+                disabledImage = (Texture2D) Resources.Load(disabledImagePath);
+
+                if (disabledImage != null)
+                {
+                    disabledSprite = Sprite.Create(disabledImage,
+                        new Rect(0, 0, disabledImage.width, disabledImage.height), new Vector2(0.5f, 0.5f));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clean constructor.
+        /// </summary>
+        public Item()
+        {
+        }
+
+        /// <summary>
+        /// Instantiate a item with a id.
+        /// </summary>
+        /// <param name="id">The item id.</param>
+        public Item(int id, Options options)
+        {
+            SetId();
 //      uniqueId = Guid.NewGuid().ToString();
-      this.id = id;
+            this.id = id;
 
-      foreach (Language language in options.languages)
-      {
-        name = ArrayHelper.Add(name, new LanguageDictionary(language.name, "[ Edit to change this name ]"));
-        description = ArrayHelper.Add(description, new LanguageDictionary(language.name, ""));
-      }
-    }
-
-    /// <summary>
-    /// Mark a item as have.
-    /// </summary>
-    public void MarkItemAsHave()
-    {
-      have = true;
-    }
-    
-    /// <summary>
-    /// Set the uniqueId if it is empty or null.
-    /// </summary>
-    /// <returns>Return true if it change or false if don't.</returns>
-    public bool SetId()
-    {
-      if (uniqueId == string.Empty || uniqueId == null)
-      {
-        uniqueId = Guid.NewGuid().ToString();
-        return true;
-      }
-      return false;
-    }
-
-    /// <summary>
-    /// Find a item by id.
-    /// </summary>
-    /// <param name="array">A array of items.</param>
-    /// <param name="itemId">The id of the item.</param>
-    /// <returns>The item if found, or null.</returns>
-    public static Item Find(Item[] array, int itemId)
-    {
-      return (Item) Helpers.Find.In(array).Where("id", itemId).Result;
-    }
-
-    /// <summary>
-    /// Find a item by name in a specific language.
-    /// </summary>
-    /// <param name="items">A array of items.</param>
-    /// <param name="name">The name of the item.</param>
-    /// <param name="language">The specific language.</param>
-    /// <returns>The item if found, or null.s</returns>
-    public static Item Find(Item[] items, string name, string language = "English")
-    {
-      // TODO: use the Helpers.Find class here.
-      foreach (Item item in items)
-      {
-        LanguageDictionary itemName = DictionariesHelper.ContainsKey(item.name, language);
-
-        if (itemName.value == name && itemName != null)
-        {
-          return item;
+            foreach (var language in options.languages)
+            {
+                name = ArrayHelper.Add(name, new LanguageDictionary(language.name, "[ Edit to change this name ]"));
+                description = ArrayHelper.Add(description, new LanguageDictionary(language.name, ""));
+            }
         }
-      }
-      Debug.LogError($"This item \"{name}\" doesn't exist.");
-      return null;
-    }
 
-    /// <summary>
-    /// Return the data of the object to save in a persistent object.
-    /// </summary>
-    /// <returns>A persistent object.</returns>
-    public override Persistent GetData()
-    {
-      var item = new ItemPersistent();
-      item.id = uniqueId;
-      item.have = have;
-      item.discarded = discarded;
-      return item;
-    }
+        /// <summary>
+        /// Mark a item as have.
+        /// </summary>
+        public void MarkItemAsHave()
+        {
+            have = true;
+        }
 
-    /// <summary>
-    /// Store in a object data from persistent object.
-    /// </summary>
-    /// <param name="persistentData">The persistent data object.</param>
-    public override void SetData(Persistent persistentData)
-    {
-      var itemPersistentData = (ItemPersistent) persistentData;
-      uniqueId = itemPersistentData.id;
-      have = itemPersistentData.have;
-      discarded = itemPersistentData.discarded;
-    }
+        /// <summary>
+        /// Set the uniqueId if it is empty or null.
+        /// </summary>
+        /// <returns>Return true if it change or false if don't.</returns>
+        public bool SetId()
+        {
+            if (uniqueId == string.Empty || uniqueId == null)
+            {
+                uniqueId = Guid.NewGuid().ToString();
+                return true;
+            }
 
-    /// <summary>
-    /// Return the name of the item.
-    /// </summary>
-    /// <param name="language">The language of the name.</param>
-    /// <returns>The name of the item or empty.</returns>
-    public string DisplayName(string language)
-    {
-      var nameResult = DictionariesHelper.ContainsKey(name, language);
-      if (nameResult == null) return string.Empty;
-      return nameResult.value;
-    }
+            return false;
+        }
 
-    /// <summary>
-    /// Return the description of the item.
-    /// </summary>
-    /// <param name="language">The language of the name.</param>
-    /// <returns>The description of the item or empty.</returns>
-    public string DisplayDescription(string language)
-    {
-      var nameResult = DictionariesHelper.ContainsKey(description, language);
-      if (nameResult == null) return string.Empty;
-      return nameResult.value;
-    }
+        /// <summary>
+        /// Find a item by id.
+        /// </summary>
+        /// <param name="array">A array of items.</param>
+        /// <param name="itemId">The id of the item.</param>
+        /// <returns>The item if found, or null.</returns>
+        public static Item Find(Item[] array, int itemId) => (Item) Helpers.Find.In(array).Where("id", itemId).Result;
 
-    /// <summary>
-    /// Copy a item with all fields values.
-    /// </summary>
-    /// <param name="newId">the new id for the copied item.</param>
-    /// <param name="options">The options with languages infos.</param>
-    /// <returns>The new item.</returns>
-    public Item Copy(int newId, Options options)
-    {
-      var item = new Item(newId, options);
-      item.name = this.name;
-      item.description = this.description;
-      item.imagePath = this.imagePath;
-      item.highlightImagePath = this.highlightImagePath;
-      item.pressedImagePath = this.pressedImagePath;
-      item.disabledImagePath = this.disabledImagePath;
-      item.category = this.category;
-      return item;
+        /// <summary>
+        /// Find a item by name in a specific language.
+        /// </summary>
+        /// <param name="items">A array of items.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="language">The specific language.</param>
+        /// <returns>The item if found, or null.s</returns>
+        public static Item Find(Item[] items, string name, string language = "English")
+        {
+            // TODO: use the Helpers.Find class here.
+            foreach (var item in items)
+            {
+                var itemName = DictionariesHelper.ContainsKey(item.name, language);
+
+                if (itemName.value == name && itemName != null)
+                {
+                    return item;
+                }
+            }
+
+            Debug.LogError($"This item \"{name}\" doesn't exist.");
+            return null;
+        }
+
+        /// <summary>
+        /// Return the data of the object to save in a persistent object.
+        /// </summary>
+        /// <returns>A persistent object.</returns>
+        public override Persistent GetData()
+        {
+            var item = new ItemPersistent();
+            item.id = uniqueId;
+            item.have = have;
+            item.discarded = discarded;
+            return item;
+        }
+
+        /// <summary>
+        /// Store in a object data from persistent object.
+        /// </summary>
+        /// <param name="persistentData">The persistent data object.</param>
+        public override void SetData(Persistent persistentData)
+        {
+            var itemPersistentData = (ItemPersistent) persistentData;
+            uniqueId = itemPersistentData.id;
+            have = itemPersistentData.have;
+            discarded = itemPersistentData.discarded;
+        }
+
+        /// <summary>
+        /// Return the name of the item.
+        /// </summary>
+        /// <param name="language">The language of the name.</param>
+        /// <returns>The name of the item or empty.</returns>
+        public string DisplayName(string language)
+        {
+            var nameResult = DictionariesHelper.ContainsKey(name, language);
+            if (nameResult == null)
+            {
+                return string.Empty;
+            }
+
+            return nameResult.value;
+        }
+
+        /// <summary>
+        /// Return the description of the item.
+        /// </summary>
+        /// <param name="language">The language of the name.</param>
+        /// <returns>The description of the item or empty.</returns>
+        public string DisplayDescription(string language)
+        {
+            var nameResult = DictionariesHelper.ContainsKey(description, language);
+            if (nameResult == null)
+            {
+                return string.Empty;
+            }
+
+            return nameResult.value;
+        }
+
+        /// <summary>
+        /// Copy a item with all fields values.
+        /// </summary>
+        /// <param name="newId">the new id for the copied item.</param>
+        /// <param name="options">The options with languages infos.</param>
+        /// <returns>The new item.</returns>
+        public Item Copy(int newId, Options options)
+        {
+            var item = new Item(newId, options);
+            item.name = this.name;
+            item.description = this.description;
+            item.imagePath = this.imagePath;
+            item.highlightImagePath = this.highlightImagePath;
+            item.pressedImagePath = this.pressedImagePath;
+            item.disabledImagePath = this.disabledImagePath;
+            item.category = this.category;
+            return item;
+        }
     }
-  }
 }

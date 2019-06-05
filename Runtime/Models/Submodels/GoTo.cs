@@ -2,27 +2,24 @@ using System;
 
 namespace LavaLeak.Diplomata.Models.Submodels
 {
-  [Serializable]
-  public struct GoTo
-  {
-    public string uniqueId;
-
-    public GoTo(string uniqueId)
+    [Serializable]
+    public struct GoTo
     {
-      this.uniqueId = uniqueId;
-    }
+        public string uniqueId;
 
-    public Message GetMessage(Context context)
-    {
-      foreach (Column col in context.columns)
-      {
-        if (Message.Find(col.messages, uniqueId) != null)
+        public GoTo(string uniqueId) => this.uniqueId = uniqueId;
+
+        public Message GetMessage(Context context)
         {
-          return Message.Find(col.messages, uniqueId);
-        }
-      }
+            foreach (var col in context.columns)
+            {
+                if (Message.Find(col.messages, uniqueId) != null)
+                {
+                    return Message.Find(col.messages, uniqueId);
+                }
+            }
 
-      return null;
+            return null;
+        }
     }
-  }
 }

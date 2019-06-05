@@ -3,32 +3,32 @@ using LavaLeak.Diplomata.Dictionaries;
 
 namespace LavaLeak.Diplomata.Helpers
 {
-  public static class DictionariesHelper
-  {
-    public static AttributeDictionary ContainsKey(AttributeDictionary[] array, string key)
+    public static class DictionariesHelper
     {
-      for (int i = 0; i < array.Length; i++)
-      {
-        if (array[i].key == key)
+        public static AttributeDictionary ContainsKey(AttributeDictionary[] array, string key)
         {
-          return array[i];
+            for (var i = 0; i < array.Length; i++)
+            {
+                if (array[i].key == key)
+                {
+                    return array[i];
+                }
+            }
+
+            return null;
         }
-      }
 
-      return null;
-    }
-
-    public static LanguageDictionary ContainsKey(LanguageDictionary[] array, string key)
-    {
-      for (int i = 0; i < array.Length; i++)
-      {
-        if (array[i].key == key)
+        public static LanguageDictionary ContainsKey(LanguageDictionary[] array, string key)
         {
-          return array[i];
-        }
-      }
+            for (var i = 0; i < array.Length; i++)
+            {
+                if (array[i].key == key)
+                {
+                    return array[i];
+                }
+            }
 
-      return null;
+            return null;
+        }
     }
-  }
 }

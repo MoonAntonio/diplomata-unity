@@ -5,42 +5,44 @@ using UnityEngine;
 
 namespace LavaLeak.Diplomata.Models
 {
-  [Serializable]
-  public class Flag : Data
-  {
-    [SerializeField]
-    private string uniqueId = Guid.NewGuid().ToString();
-
-    public string name;
-    public bool value;
-
-    public Flag() {}
-
-    public Flag(string name, bool value)
+    [Serializable]
+    public class Flag : Data
     {
-      this.name = name;
-      this.value = value;
-    }
+        [SerializeField]
+        private string uniqueId = Guid.NewGuid().ToString();
 
-    public void Set(string name, bool value)
-    {
-      this.name = name;
-      this.value = value;
-    }
+        public string name;
+        public bool value;
 
-    public override Persistent GetData()
-    {
-      var flag = new FlagPersistent();
-      flag.id = uniqueId;
-      flag.value = value;
-      return flag;
-    }
+        public Flag()
+        {
+        }
 
-    public override void SetData(Persistent persistentData)
-    {
-      var flagPersistentData = (FlagPersistent) persistentData;
-      uniqueId = flagPersistentData.id;
-      value = flagPersistentData.value;
+        public Flag(string name, bool value)
+        {
+            this.name = name;
+            this.value = value;
+        }
+
+        public void Set(string name, bool value)
+        {
+            this.name = name;
+            this.value = value;
+        }
+
+        public override Persistent GetData()
+        {
+            var flag = new FlagPersistent();
+            flag.id = uniqueId;
+            flag.value = value;
+            return flag;
+        }
+
+        public override void SetData(Persistent persistentData)
+        {
+            var flagPersistentData = (FlagPersistent) persistentData;
+            uniqueId = flagPersistentData.id;
+            value = flagPersistentData.value;
+        }
     }
-  }
 }
