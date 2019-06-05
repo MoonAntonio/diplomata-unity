@@ -40,21 +40,6 @@ namespace LavaLeak.Diplomata
                     return null;
                 }
 
-                if (_data != null)
-                {
-                    return _data;
-                }
-
-                _data = Object.FindObjectOfType<DiplomataData>();
-
-                if (_data == null)
-                {
-                    var dataGameObject = new GameObject("[Diplomata]");
-                    Object.DontDestroyOnLoad(dataGameObject);
-                    _data = dataGameObject.AddComponent<DiplomataData>();
-                    _data.Reset();
-                }
-
                 return _data;
             }
         }
@@ -70,7 +55,7 @@ namespace LavaLeak.Diplomata
         /// <param name="reload">Load static data after dispose?</param>
         public static void DisposeData(bool reload = true)
         {
-            Object.DestroyImmediate(Data.gameObject);
+            _data = null;
             if (reload)
             {
                 Data.Reset();
