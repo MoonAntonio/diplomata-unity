@@ -12,7 +12,7 @@ namespace LavaLeak.Diplomata
     /// The Data storage class, here are all the Diplomata Data fields.
     /// </summary>
     [Serializable]
-    public class DiplomataData
+    public class DiplomataData : MonoBehaviour
     {
         public Options options;
         public List<Character> characters;
